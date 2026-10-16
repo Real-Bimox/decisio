@@ -68,9 +68,9 @@ REPOSITORIES = {
 RENAMED = {f"aminry/{name.split('/')[1]}": name for name in REPOSITORIES.values()}
 # the revision of each repository that a decisio release serves when none is given (--base owner/name@revision wins)
 PINNED_REVISIONS: dict[str, str] = {
-    "tachara-ai/decisio-gemma-4-31b": "1c3cbe2c34c7e432b1cd3c9f934bb7957f35d0c0",
-    "tachara-ai/decisio-gemma-4-12b": "860675d8b713c8db519909e317a40e379bd47e9e",
-    "tachara-ai/decisio-qwen3.6-35b-a3b": "6873ba238314c4d50b7dfba497551f1b36e863b9",
+    "tachara-ai/decisio-gemma-4-31b": "09f916cbe1539d71a439035781389029550081d0",
+    "tachara-ai/decisio-gemma-4-12b": "6fc1b9b9e9a5a04262a49055eb28e3a6f72df83c",
+    "tachara-ai/decisio-qwen3.6-35b-a3b": "d7bfda49b8284c3213098bafb6664bbee0f94433",
 }
 # the bases whose own key is served from a decisio repository rather than from the source's weights, once that
 # repository's revision is pinned: the 31B's FP8 checkpoint saves quantizing Google's bf16 weights at every start
@@ -93,8 +93,9 @@ def weights_of(base: str, quantization: str | None = None) -> dict:
             "quantization": quantization or "compressed-tensors",
             "method": (
                 "quantized to FP8 by decisio's export (per-tensor scales stored beside the weights), the same bytes as "
-                "the tensors vLLM 0.30.0 and 0.31.0 hold after quantizing these weights on load (compared 2026-10-15; "
-                "the answers of the two differ on 0.31.0, see the card); activations are quantized per token at run "
+                "the tensors vLLM 0.30.0 and 0.31.0 hold after quantizing these weights on load (compared 2026-10-15); "
+                "on 0.31.0 the answers of the two differ by restart-sized amounts through the compiled path and are "
+                "identical with eager execution (see the card); activations are quantized per token at run "
                 "time; every other tensor, the vision tower included, is the source's; nothing was trained"
             ),
             "quantized_on_load": False,
